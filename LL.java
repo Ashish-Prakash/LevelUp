@@ -184,8 +184,6 @@ public class LL {
         return head;
     }
 
-    public static ListNode th = null, tt = null;
-
     public static int length(ListNode head) {
         if (head == null)
             return 0;
@@ -198,7 +196,9 @@ public class LL {
         return len;
     }
 
-    public static void addFirstNode(ListNode head) {
+    private static ListNode th = null, tt = null;
+
+    private static void addFirstNode(ListNode head) {
         if (th == null) {
             th = head;
             tt = head;
@@ -238,8 +238,28 @@ public class LL {
     public static ListNode reverseInRange(ListNode head, int n, int m) {
         if (head == null || head.next == null)
             return head;
+        ListNode dummy = new ListNode(-1), curr = head, prev = dummy;
+        prev.next = head;
+        int idx = 1;
+        while (idx <= m) {
+            while (idx >= n && idx <= m) {
+                ListNode forw = curr.next;
+                curr.next = null;
+                addFirstNode(curr);
+                curr = forw;
+                idx++;
+            }
+            if (idx > m) {
+                prev.next = th;
+                tt.next = curr;
+                break;
+            }
+            idx++;
+            prev = curr;
+            curr = curr.next;
+        }
 
-        return null;
+        return dummy.next;
     }
 
     public static ListNode removeDuplicates(ListNode head) {
@@ -331,11 +351,11 @@ public class LL {
             headA = headA.next;
             s1--;
         }
-        while(s2 > s1){
+        while (s2 > s1) {
             headB = headB.next;
             s2--;
         }
-        while(headA != headB){
+        while (headA != headB) {
             headA = headA.next;
             headB = headB.next;
         }
@@ -344,7 +364,7 @@ public class LL {
 
     public static ListNode IntersectionNodeInTwoLL2(ListNode headA, ListNode headB) {
         ListNode a = headA, b = headB;
-        while(a != b){
+        while (a != b) {
             a = a == null ? headB : a.next;
             b = b == null ? headA : b.next;
         }
