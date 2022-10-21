@@ -286,6 +286,71 @@ public class LL {
         return dummy.next;
     }
 
+    public static boolean isCyclePresentInLL(ListNode head) {
+        if (head == null || head.next == null)
+            return false;
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static ListNode CycleNode(ListNode head) {
+        if (head == null || head.next == null) {
+            return null;
+        }
+        ListNode fast = head, slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                break;
+            }
+        }
+        if (slow != fast) {
+            return null;
+        }
+        slow = head;
+        while (slow != fast) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    public static ListNode IntersectionNodeInTwoLL(ListNode headA, ListNode headB) {
+        int s1 = getLength(headA);
+        int s2 = getLength(headB);
+        while (s1 > s2) {
+            headA = headA.next;
+            s1--;
+        }
+        while(s2 > s1){
+            headB = headB.next;
+            s2--;
+        }
+        while(headA != headB){
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return headA;
+    }
+
+    public static ListNode IntersectionNodeInTwoLL2(ListNode headA, ListNode headB) {
+        ListNode a = headA, b = headB;
+        while(a != b){
+            a = a == null ? headB : a.next;
+            b = b == null ? headA : b.next;
+        }
+        return a;
+    }
+
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         if (l1 == null || l2 == null) {
             return l1 == null ? l2 : l1;
